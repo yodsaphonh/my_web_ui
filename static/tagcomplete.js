@@ -1,6 +1,7 @@
 const DEFAULT_DATA_URL = '/tagcomplete-data.json';
 const DEFAULT_MANIFEST_URL = '/tagcomplete-sources.json';
 const MAX_RESULTS = 20;
+const SUGGESTION_IDLE_TIMEOUT_MS = 3000;
 
 const CATEGORY_MAP = {
     '0': 'general',
@@ -581,6 +582,7 @@ class TagAutocomplete {
         this.activeIndex = -1;
         this.token = null;
         this.blurTimeout = null;
+        this.idleTimeout = null;
 
         this.container = document.createElement('div');
         this.container.className = 'tag-suggestions';
@@ -592,6 +594,9 @@ class TagAutocomplete {
         this.handleBlur = this.handleBlur.bind(this);
         this.handleFocus = this.handleFocus.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
+        this.handlePointerActivity = this.handlePointerActivity.bind(this);
+        this.resetIdleTimer = this.resetIdleTimer.bind(this);
+        this.clearIdleTimer = this.clearIdleTimer.bind(this);
 
         textarea.addEventListener('input', this.handleInput);
         textarea.addEventListener('keydown', this.handleKeyDown);
@@ -599,6 +604,9 @@ class TagAutocomplete {
         textarea.addEventListener('focus', this.handleFocus);
         window.addEventListener('scroll', this.handleScroll, true);
         window.addEventListener('resize', this.handleScroll);
+        this.container.addEventListener('pointerdown', this.handlePointerActivity);
+        this.container.addEventListener('pointermove', this.handlePointerActivity);
+        this.container.addEventListener('pointerup', this.handlePointerActivity);
     }
 
     destroy() {
@@ -608,6 +616,10 @@ class TagAutocomplete {
         this.textarea.removeEventListener('focus', this.handleFocus);
         window.removeEventListener('scroll', this.handleScroll, true);
         window.removeEventListener('resize', this.handleScroll);
+        this.container.removeEventListener('pointerdown', this.handlePointerActivity);
+        this.container.removeEventListener('pointermove', this.handlePointerActivity);
+        this.container.removeEventListener('pointerup', this.handlePointerActivity);
+        this.clearIdleTimer();
         this.container.remove();
     }
 
@@ -620,10 +632,12 @@ class TagAutocomplete {
 
     handleInput() {
         this.updateSuggestions();
+        this.resetIdleTimer();
     }
 
     handleFocus() {
         this.updateSuggestions();
+        this.resetIdleTimer();
     }
 
     handleBlur() {
@@ -636,10 +650,16 @@ class TagAutocomplete {
         }
     }
 
+    handlePointerActivity() {
+        this.resetIdleTimer();
+    }
+
     handleKeyDown(event) {
         if (this.container.hidden || this.suggestions.length === 0) {
             return;
         }
+
+        this.resetIdleTimer();
 
         switch (event.key) {
             case 'ArrowDown':
@@ -731,6 +751,7 @@ class TagAutocomplete {
         this.positionContainer();
         this.container.hidden = false;
         this.setActiveIndex(0);
+        this.resetIdleTimer();
     }
 
     renderSuggestions() {
@@ -743,6 +764,7 @@ class TagAutocomplete {
                     window.clearTimeout(this.blurTimeout);
                     this.blurTimeout = null;
                 }
+                this.clearIdleTimer();
                 this.applySuggestion(suggestion.item.tag);
             });
             this.container.appendChild(element);
@@ -787,10 +809,31 @@ class TagAutocomplete {
         this.hideSuggestions();
     }
 
+    resetIdleTimer() {
+        if (this.idleTimeout) {
+            window.clearTimeout(this.idleTimeout);
+        }
+        if (this.container.hidden) {
+            this.idleTimeout = null;
+            return;
+        }
+        this.idleTimeout = window.setTimeout(() => {
+            this.hideSuggestions();
+        }, SUGGESTION_IDLE_TIMEOUT_MS);
+    }
+
+    clearIdleTimer() {
+        if (this.idleTimeout) {
+            window.clearTimeout(this.idleTimeout);
+            this.idleTimeout = null;
+        }
+    }
+
     hideSuggestions() {
         this.suggestions = [];
         this.container.hidden = true;
         this.activeIndex = -1;
+        this.clearIdleTimer();
     }
 }
 

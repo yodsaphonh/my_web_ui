@@ -248,7 +248,10 @@ function updateProgress(value, text, eta) {
 
 async function pollProgress(baseUrl) {
     try {
-        const response = await fetch(`${baseUrl}/sdapi/v1/progress?skip_current_image=false`);
+        const response = await fetch(`${baseUrl}/sdapi/v1/progress?skip_current_image=false`, {
+            credentials: 'omit',
+            mode: 'cors',
+        });
         if (!response.ok) {
             throw new Error(`Progress request failed: ${response.status}`);
         }
@@ -426,7 +429,16 @@ function populateSelect(select, options, placeholderLabel = 'Default') {
 }
 
 async function fetchList(url) {
-    const response = await fetch(url);
+    let response;
+    try {
+        response = await fetch(url, { credentials: 'omit', mode: 'cors' });
+    } catch (error) {
+        const reason =
+            error instanceof TypeError
+                ? 'Network request was blocked. Remote Automatic1111 APIs must allow cross-origin requests (CORS).'
+                : error.message;
+        throw new Error(reason);
+    }
     if (!response.ok) {
         throw new Error(`Failed to load list: ${response.status}`);
     }
@@ -595,13 +607,24 @@ async function submitGeneration(endpoint, payload) {
         progressText.textContent = 'Sending request...';
         imagesContainer.classList.add('loading');
 
-        const response = await fetch(`${baseUrl}${endpoint}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-        });
+        let response;
+        try {
+            response = await fetch(`${baseUrl}${endpoint}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+                credentials: 'omit',
+                mode: 'cors',
+            });
+        } catch (networkError) {
+            const reason =
+                networkError instanceof TypeError
+                    ? 'Network request was blocked. Remote Automatic1111 APIs must allow cross-origin requests (CORS).'
+                    : networkError.message;
+            throw new Error(reason);
+        }
 
         if (!response.ok) {
             const errorText = await response.text();
