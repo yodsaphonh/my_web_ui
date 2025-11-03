@@ -12,6 +12,12 @@ This project provides a minimal Rust web server and static web interface for int
 - [Rust](https://www.rust-lang.org/tools/install) toolchain with `cargo`.
 - Access to a running Automatic1111 web UI instance (local or remote) with its API enabled.
 
+> **Troubleshooting builds**
+>
+> If `cargo build` fails with a message like `use of unstable library feature 'fd_lock'` or complains that a dependency
+> requires a newer compiler, update your toolchain by running `rustup update stable`. Windows users should ensure they are on
+> the MSVC toolchain via `rustup default stable-x86_64-pc-windows-msvc`.
+
 ## Running the server
 ```bash
 cargo run

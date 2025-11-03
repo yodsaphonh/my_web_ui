@@ -1,9 +1,9 @@
 use axum::{
-    Router,
     extract::State,
     http::StatusCode,
     response::{IntoResponse, Response},
     routing::get,
+    Router,
 };
 use std::{net::SocketAddr, path::PathBuf, sync::Arc};
 use tower_http::{services::ServeDir, trace::TraceLayer};
