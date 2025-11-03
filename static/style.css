@@ -55,15 +55,60 @@ section {
     backdrop-filter: blur(12px);
 }
 
-.configuration form {
+.configuration form,
+.tab-panel {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 
+.connection-settings {
+    margin-bottom: 1.5rem;
+}
+
+.tabset {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.tab-button {
+    background: rgba(30, 41, 59, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    color: #cbd5f5;
+    padding: 0.65rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, border 0.2s ease, color 0.2s ease;
+}
+
+.tab-button.active {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(14, 165, 233, 0.4));
+    border-color: rgba(59, 130, 246, 0.8);
+    color: #e0f2fe;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: flex;
+}
+
 .form-row {
     display: grid;
     gap: 1rem;
+}
+
+.align-start {
+    align-items: start;
 }
 
 .two-column {
@@ -80,6 +125,18 @@ label {
     gap: 0.5rem;
     font-weight: 600;
     color: #cbd5f5;
+}
+
+.toggle {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+}
+
+.toggle input[type="checkbox"] {
+    width: auto;
+    accent-color: #38bdf8;
 }
 
 label input,
@@ -126,6 +183,53 @@ textarea {
 
 .model-selector button:hover {
     background: rgba(59, 130, 246, 0.3);
+}
+
+.image-loader {
+    gap: 0.75rem;
+}
+
+.image-loader button {
+    background: rgba(248, 113, 113, 0.15);
+    border: 1px solid rgba(248, 113, 113, 0.35);
+    color: #fecaca;
+    border-radius: 10px;
+    padding: 0.55rem 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s ease, border 0.2s ease;
+}
+
+.image-loader button:hover {
+    background: rgba(248, 113, 113, 0.25);
+    border-color: rgba(248, 113, 113, 0.6);
+}
+
+.hires-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    background: rgba(15, 23, 42, 0.6);
+    border-radius: 16px;
+    border: 1px dashed rgba(148, 163, 184, 0.3);
+    padding: 1rem;
+}
+
+.hires-preview img {
+    max-width: 100%;
+    max-height: 320px;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.hr-settings {
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 16px;
+    padding: 1.25rem;
+    background: rgba(15, 23, 42, 0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
 
 button[type="submit"] {
@@ -215,11 +319,37 @@ button[type="submit"]:hover {
     letter-spacing: 0.05em;
 }
 
+.image-grid .image-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    background: rgba(15, 23, 42, 0.6);
+    border-radius: 18px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    padding: 1rem;
+    box-shadow: 0 20px 45px -20px rgba(15, 23, 42, 0.9);
+}
+
 .image-grid img {
     width: 100%;
-    border-radius: 16px;
+    border-radius: 14px;
     border: 1px solid rgba(148, 163, 184, 0.2);
-    box-shadow: 0 20px 45px -20px rgba(15, 23, 42, 0.9);
+}
+
+.image-card button {
+    align-self: flex-start;
+    background: rgba(59, 130, 246, 0.18);
+    border: 1px solid rgba(59, 130, 246, 0.45);
+    color: #bfdbfe;
+    border-radius: 10px;
+    padding: 0.5rem 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s ease, border 0.2s ease;
+}
+
+.image-card button:hover {
+    background: rgba(59, 130, 246, 0.32);
+    border-color: rgba(59, 130, 246, 0.7);
 }
 
 .placeholder {
