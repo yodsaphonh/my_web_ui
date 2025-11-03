@@ -1,0 +1,249 @@
+:root {
+    color-scheme: dark;
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+    background-color: #0f172a;
+    color: #e2e8f0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: radial-gradient(circle at top, rgba(59, 130, 246, 0.2), transparent 40%),
+        radial-gradient(circle at bottom, rgba(14, 116, 144, 0.2), transparent 40%),
+        #0f172a;
+}
+
+header,
+footer {
+    text-align: center;
+    padding: 2rem 1rem 1rem;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    letter-spacing: 0.05em;
+}
+
+header .subtitle {
+    margin-top: 0.5rem;
+    color: #94a3b8;
+}
+
+main {
+    width: min(1100px, 94vw);
+    margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-bottom: 3rem;
+}
+
+section {
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: 20px;
+    padding: 1.75rem;
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+}
+
+.configuration form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    gap: 1rem;
+}
+
+.two-column {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.three-column {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #cbd5f5;
+}
+
+label input,
+label textarea,
+label select {
+    width: 100%;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    color: inherit;
+    font-size: 1rem;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+label input:focus,
+label textarea:focus,
+label select:focus {
+    border-color: rgba(59, 130, 246, 0.7);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.model-selector {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.model-selector button {
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.6);
+    color: #bfdbfe;
+    border-radius: 10px;
+    padding: 0.6rem 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.model-selector button:hover {
+    background: rgba(59, 130, 246, 0.3);
+}
+
+button[type="submit"] {
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-size: 1.1rem;
+    padding: 0.9rem 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 15px 35px -15px rgba(37, 99, 235, 0.9);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 20px 45px -15px rgba(14, 165, 233, 0.9);
+}
+
+.status {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.progress-container label {
+    font-weight: 600;
+}
+
+.progress-bar {
+    width: 100%;
+    background: rgba(30, 41, 59, 0.8);
+    border-radius: 12px;
+    overflow: hidden;
+    height: 14px;
+    margin-top: 0.5rem;
+}
+
+.progress {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #22d3ee, #2563eb);
+    transition: width 0.2s ease;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+    color: #94a3b8;
+}
+
+.noise-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.noise-preview canvas,
+.noise-preview img {
+    border-radius: 16px;
+    width: 256px;
+    height: 256px;
+    object-fit: cover;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    background: rgba(15, 23, 42, 0.8);
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.image-grid.loading::after {
+    content: 'Generating…';
+    position: relative;
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px dashed rgba(148, 163, 184, 0.4);
+    color: #93c5fd;
+    letter-spacing: 0.05em;
+}
+
+.image-grid img {
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 20px 45px -20px rgba(15, 23, 42, 0.9);
+}
+
+.placeholder {
+    color: #64748b;
+    text-align: center;
+    grid-column: 1/-1;
+}
+
+.help {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+footer {
+    padding-bottom: 2rem;
+    color: #475569;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    section {
+        padding: 1.25rem;
+    }
+}
