@@ -1,0 +1,9 @@
+{
+    "datasets": [
+        {
+            "url": "/tagcomplete-data.json",
+            "format": "json",
+            "label": "Starter dataset"
+        }
+    ]
+}

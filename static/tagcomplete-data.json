@@ -1,0 +1,368 @@
+[
+  {
+    "tag": "1girl",
+    "aliases": ["solo female"],
+    "category": "people",
+    "description": "Single female subject"
+  },
+  {
+    "tag": "1boy",
+    "aliases": ["solo male"],
+    "category": "people",
+    "description": "Single male subject"
+  },
+  {
+    "tag": "solo",
+    "aliases": ["single"],
+    "category": "general",
+    "description": "Exactly one visible character"
+  },
+  {
+    "tag": "smile",
+    "aliases": ["smiling"],
+    "category": "expression",
+    "description": "Character smiling"
+  },
+  {
+    "tag": "looking_at_viewer",
+    "aliases": ["eye contact"],
+    "category": "expression",
+    "description": "Character looks directly at the viewer"
+  },
+  {
+    "tag": "full_body",
+    "aliases": ["standing"],
+    "category": "composition",
+    "description": "Shows the entire character from head to toe"
+  },
+  {
+    "tag": "upper_body",
+    "aliases": ["bust"],
+    "category": "composition",
+    "description": "Framed from the waist up"
+  },
+  {
+    "tag": "close-up",
+    "aliases": ["portrait"],
+    "category": "composition",
+    "description": "Framed tightly on the face"
+  },
+  {
+    "tag": "dynamic_angle",
+    "aliases": ["dutch angle", "tilted"],
+    "category": "composition",
+    "description": "Stylized tilted camera angle"
+  },
+  {
+    "tag": "highres",
+    "aliases": ["hires", "high resolution"],
+    "category": "quality",
+    "description": "General high quality render"
+  },
+  {
+    "tag": "best_quality",
+    "aliases": ["masterpiece"],
+    "category": "quality",
+    "description": "Strong quality emphasis"
+  },
+  {
+    "tag": "ultra_detailed",
+    "aliases": ["very detailed"],
+    "category": "quality",
+    "description": "Add more detail"
+  },
+  {
+    "tag": "dramatic_lighting",
+    "aliases": ["cinematic lighting"],
+    "category": "lighting",
+    "description": "High contrast lighting style"
+  },
+  {
+    "tag": "backlighting",
+    "aliases": ["rim lighting"],
+    "category": "lighting",
+    "description": "Light source behind subject"
+  },
+  {
+    "tag": "soft_lighting",
+    "aliases": ["diffused light"],
+    "category": "lighting",
+    "description": "Soft evenly distributed light"
+  },
+  {
+    "tag": "sunset",
+    "aliases": ["golden hour"],
+    "category": "environment",
+    "description": "Set during sunset"
+  },
+  {
+    "tag": "night",
+    "aliases": ["nighttime"],
+    "category": "environment",
+    "description": "Night scene"
+  },
+  {
+    "tag": "cityscape",
+    "aliases": ["city"],
+    "category": "environment",
+    "description": "Urban environment"
+  },
+  {
+    "tag": "forest",
+    "aliases": ["woods"],
+    "category": "environment",
+    "description": "Forest scenery"
+  },
+  {
+    "tag": "mountains",
+    "aliases": ["mountain range"],
+    "category": "environment",
+    "description": "Mountain scenery"
+  },
+  {
+    "tag": "waterfall",
+    "aliases": ["falls"],
+    "category": "environment",
+    "description": "Large waterfall"
+  },
+  {
+    "tag": "ocean",
+    "aliases": ["sea", "waves"],
+    "category": "environment",
+    "description": "Ocean background"
+  },
+  {
+    "tag": "nebula",
+    "aliases": ["space nebula"],
+    "category": "environment",
+    "description": "Colorful nebula backdrop"
+  },
+  {
+    "tag": "cyberpunk",
+    "aliases": ["neon city"],
+    "category": "style",
+    "description": "Neon futuristic style"
+  },
+  {
+    "tag": "steampunk",
+    "aliases": ["gearpunk"],
+    "category": "style",
+    "description": "Victorian industrial aesthetic"
+  },
+  {
+    "tag": "fantasy",
+    "aliases": ["high fantasy"],
+    "category": "style",
+    "description": "Fantasy inspired composition"
+  },
+  {
+    "tag": "sci-fi",
+    "aliases": ["science fiction"],
+    "category": "style",
+    "description": "Futuristic science fiction theme"
+  },
+  {
+    "tag": "anime",
+    "aliases": ["anime style"],
+    "category": "style",
+    "description": "Anime illustration aesthetic"
+  },
+  {
+    "tag": "digital_painting",
+    "aliases": ["digital art"],
+    "category": "style",
+    "description": "Digital painting finish"
+  },
+  {
+    "tag": "oil_painting",
+    "aliases": ["oil on canvas"],
+    "category": "style",
+    "description": "Oil painting style"
+  },
+  {
+    "tag": "watercolor",
+    "aliases": ["watercolour"],
+    "category": "style",
+    "description": "Watercolor effect"
+  },
+  {
+    "tag": "pencil_sketch",
+    "aliases": ["sketch"],
+    "category": "style",
+    "description": "Rough pencil sketch"
+  },
+  {
+    "tag": "sweater",
+    "aliases": ["knit sweater"],
+    "category": "clothing",
+    "description": "Subject wears a sweater"
+  },
+  {
+    "tag": "hoodie",
+    "aliases": ["hooded sweatshirt"],
+    "category": "clothing",
+    "description": "Subject wears a hoodie"
+  },
+  {
+    "tag": "armor",
+    "aliases": ["armour", "battle armor"],
+    "category": "clothing",
+    "description": "Armored outfit"
+  },
+  {
+    "tag": "kimono",
+    "aliases": ["yukata"],
+    "category": "clothing",
+    "description": "Traditional kimono outfit"
+  },
+  {
+    "tag": "wings",
+    "aliases": ["angel wings", "feathered wings"],
+    "category": "features",
+    "description": "Visible wings"
+  },
+  {
+    "tag": "horns",
+    "aliases": ["demon horns"],
+    "category": "features",
+    "description": "Visible horns"
+  },
+  {
+    "tag": "fox_ears",
+    "aliases": ["kitsune ears"],
+    "category": "features",
+    "description": "Fox ears"
+  },
+  {
+    "tag": "cat_ears",
+    "aliases": ["nekomimi"],
+    "category": "features",
+    "description": "Cat ears"
+  },
+  {
+    "tag": "robot",
+    "aliases": ["android"],
+    "category": "characters",
+    "description": "Robotic subject"
+  },
+  {
+    "tag": "elf",
+    "aliases": ["elven"],
+    "category": "characters",
+    "description": "Elf character"
+  },
+  {
+    "tag": "wizard",
+    "aliases": ["mage", "sorcerer"],
+    "category": "characters",
+    "description": "Spell caster"
+  },
+  {
+    "tag": "knight",
+    "aliases": ["paladin"],
+    "category": "characters",
+    "description": "Knight in armor"
+  },
+  {
+    "tag": "dragon",
+    "aliases": ["wyrm"],
+    "category": "creature",
+    "description": "Dragon creature"
+  },
+  {
+    "tag": "phoenix",
+    "aliases": ["fire bird"],
+    "category": "creature",
+    "description": "Phoenix bird"
+  },
+  {
+    "tag": "wolf",
+    "aliases": ["wolf companion"],
+    "category": "creature",
+    "description": "Wolf animal"
+  },
+  {
+    "tag": "cat",
+    "aliases": ["kitten"],
+    "category": "creature",
+    "description": "Cat animal"
+  },
+  {
+    "tag": "river",
+    "aliases": ["stream"],
+    "category": "environment",
+    "description": "River scenery"
+  },
+  {
+    "tag": "snow",
+    "aliases": ["winter"],
+    "category": "environment",
+    "description": "Snowy environment"
+  },
+  {
+    "tag": "autumn",
+    "aliases": ["fall"],
+    "category": "environment",
+    "description": "Autumn theme"
+  },
+  {
+    "tag": "spring",
+    "aliases": ["cherry blossoms"],
+    "category": "environment",
+    "description": "Spring setting"
+  },
+  {
+    "tag": "summer",
+    "aliases": ["beach day"],
+    "category": "environment",
+    "description": "Summer theme"
+  },
+  {
+    "tag": "rain",
+    "aliases": ["rainy"],
+    "category": "environment",
+    "description": "Rain falling"
+  },
+  {
+    "tag": "thunderstorm",
+    "aliases": ["lightning storm"],
+    "category": "environment",
+    "description": "Stormy weather"
+  },
+  {
+    "tag": "fog",
+    "aliases": ["mist"],
+    "category": "environment",
+    "description": "Foggy atmosphere"
+  },
+  {
+    "tag": "glowing",
+    "aliases": ["luminescent"],
+    "category": "effects",
+    "description": "Glow effect"
+  },
+  {
+    "tag": "particle_effects",
+    "aliases": ["sparkles", "magic particles"],
+    "category": "effects",
+    "description": "Small glowing particles"
+  },
+  {
+    "tag": "lens_flare",
+    "aliases": ["flare"],
+    "category": "effects",
+    "description": "Lens flare effect"
+  },
+  {
+    "tag": "depth_of_field",
+    "aliases": ["bokeh"],
+    "category": "effects",
+    "description": "Shallow depth of field"
+  },
+  {
+    "tag": "motion_blur",
+    "aliases": ["dynamic motion"],
+    "category": "effects",
+    "description": "Blur from motion"
+  }
+]
