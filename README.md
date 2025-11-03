@@ -5,6 +5,7 @@ This project provides a minimal Rust web server and static web interface for int
 ## Features
 - Axum-based server that serves the compiled static assets on `http://localhost:8080`.
 - Dark themed single-page interface with inputs for the base API URL, model selection, prompt settings, and seed control.
+- Prompt textareas include tag autocomplete backed by a curated subset of the [a1111-sd-webui-tagcomplete](https://github.com/DominikDoom/a1111-sd-webui-tagcomplete) dataset.
 - Progress polling and animated noise preview while images are generated.
 - Gallery view that displays the resulting txt2img outputs, along with metadata extracted from the API response.
 
@@ -32,6 +33,15 @@ The server listens on port `8080` by default.
 5. Watch the progress bar and noise preview update until the final image appears in the gallery.
 
 All API routes exposed by Automatic1111 are listed in `All_API_Route.json`, which can serve as a reference for expanding the UI with additional capabilities.
+
+### Using the full TagComplete dataset
+
+The bundled `static/tagcomplete-data.json` contains a lightweight selection of popular prompts so autocomplete works out of the box.
+To upgrade to the complete dataset from [DominikDoom/a1111-sd-webui-tagcomplete](https://github.com/DominikDoom/a1111-sd-webui-tagcomplete):
+
+1. Clone or download the upstream repository.
+2. Use the export utilities in that project (for example `scripts/export.py --format json`) to produce a JSON file with fields `tag`, `aliases`, `category`, and `description`.
+3. Replace `static/tagcomplete-data.json` in this project with the exported file and refresh the browser. The autocomplete loader fetches the data dynamically, so no further code changes are needed.
 
 ## Development tips
 - Modify the static assets inside the `static/` directory. They are served directly without additional build steps.

@@ -1,3 +1,5 @@
+import { initTagAutocomplete } from './tagcomplete.js';
+
 const baseUrlInput = document.getElementById('base-url');
 const modelSelect = document.getElementById('model');
 const refreshModelsButton = document.getElementById('refresh-models');
@@ -56,6 +58,13 @@ let progressInterval = null;
 let isGenerating = false;
 let hiresImageBase64 = null;
 let lastTxt2imgParams = null;
+
+void initTagAutocomplete([
+    promptInput,
+    negativePromptInput,
+    hiresPromptInput,
+    hiresNegativePromptInput,
+]);
 
 function sanitizeBaseUrl(url) {
     return url.replace(/\/$/, '');
