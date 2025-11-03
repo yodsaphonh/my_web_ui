@@ -3,6 +3,9 @@ import { initTagAutocomplete } from './tagcomplete.js';
 const baseUrlInput = document.getElementById('base-url');
 const modelSelect = document.getElementById('model');
 const refreshModelsButton = document.getElementById('refresh-models');
+const tagDatasetButton = document.getElementById('tag-dataset-button');
+const tagDatasetInput = document.getElementById('tag-dataset-files');
+const tagDatasetStatus = document.getElementById('tag-dataset-status');
 
 const tabButtons = document.querySelectorAll('.tab-button');
 const tabPanels = document.querySelectorAll('.tab-panel');
@@ -59,12 +62,119 @@ let isGenerating = false;
 let hiresImageBase64 = null;
 let lastTxt2imgParams = null;
 
-void initTagAutocomplete([
+const numberFormatter = typeof Intl !== 'undefined' && Intl.NumberFormat ? new Intl.NumberFormat() : null;
+let currentTagDatasetStats = { tagCount: 0, sourceCount: 0 };
+
+function formatNumber(value) {
+    if (!Number.isFinite(value)) {
+        return '0';
+    }
+    return numberFormatter ? numberFormatter.format(value) : String(value);
+}
+
+function setTagDatasetStatus(message, tone = 'neutral') {
+    if (!tagDatasetStatus) {
+        return;
+    }
+    tagDatasetStatus.textContent = message;
+    tagDatasetStatus.classList.remove('is-error', 'is-success');
+    if (tone === 'error') {
+        tagDatasetStatus.classList.add('is-error');
+    } else if (tone === 'success') {
+        tagDatasetStatus.classList.add('is-success');
+    }
+}
+
+function updateTagDatasetStats(stats, context = {}) {
+    if (!tagDatasetStatus) {
+        currentTagDatasetStats = stats ?? currentTagDatasetStats;
+        return;
+    }
+
+    const previous = context.previous ?? currentTagDatasetStats;
+    const tagCount = Number.isFinite(stats?.tagCount) ? stats.tagCount : 0;
+    const sourceCount = Number.isFinite(stats?.sourceCount) ? stats.sourceCount : 0;
+
+    if (tagCount <= 0) {
+        currentTagDatasetStats = { tagCount: 0, sourceCount: 0 };
+        const message =
+            context.tone === 'error'
+                ? 'Autocomplete dataset failed to load. Add CSV or JSON files to enable suggestions.'
+                : 'Autocomplete dataset not loaded yet. Add CSV or JSON files to enable suggestions.';
+        setTagDatasetStatus(message, context.tone ?? 'neutral');
+        return;
+    }
+
+    currentTagDatasetStats = { tagCount, sourceCount };
+
+    const base = `Autocomplete ready: ${formatNumber(tagCount)} tags from ${formatNumber(sourceCount)} source${sourceCount === 1 ? '' : 's'}.`;
+
+    if (context.filesAdded) {
+        const delta = tagCount - (Number.isFinite(previous?.tagCount) ? previous.tagCount : 0);
+        const additionSummary =
+            delta > 0 ? `${formatNumber(delta)} new tag${delta === 1 ? '' : 's'}` : 'no new tags';
+        setTagDatasetStatus(
+            `${base} Merged ${context.filesAdded} file${context.filesAdded === 1 ? '' : 's'} (${additionSummary}).`,
+            delta > 0 ? 'success' : 'neutral',
+        );
+        return;
+    }
+
+    setTagDatasetStatus(base, context.tone ?? 'neutral');
+}
+
+const tagAutocompletePromise = initTagAutocomplete([
     promptInput,
     negativePromptInput,
     hiresPromptInput,
     hiresNegativePromptInput,
 ]);
+
+tagAutocompletePromise
+    .then((controller) => {
+        if (!controller) {
+            setTagDatasetStatus('Tag autocomplete is unavailable on this page.', 'error');
+            return null;
+        }
+        const stats = controller.getStats();
+        updateTagDatasetStats(stats, { tone: 'neutral' });
+        return controller;
+    })
+    .catch((error) => {
+        console.warn('Failed to initialize tag autocomplete:', error);
+        setTagDatasetStatus('Unable to load autocomplete dataset. Add CSV or JSON files to enable suggestions.', 'error');
+    });
+
+if (tagDatasetButton && tagDatasetInput) {
+    tagDatasetButton.addEventListener('click', () => {
+        tagDatasetInput.value = '';
+        tagDatasetInput.click();
+    });
+
+    tagDatasetInput.addEventListener('change', async () => {
+        const files = Array.from(tagDatasetInput.files ?? []).filter((file) => file && file.size > 0);
+        if (files.length === 0) {
+            return;
+        }
+
+        try {
+            const controller = await tagAutocompletePromise;
+            if (!controller) {
+                setTagDatasetStatus('Tag autocomplete is unavailable on this page.', 'error');
+                return;
+            }
+
+            const previous = currentTagDatasetStats;
+            const stats = await controller.mergeFiles(files);
+            updateTagDatasetStats(stats, { filesAdded: files.length, previous });
+        } catch (error) {
+            console.error('Failed to import tag dataset files:', error);
+            setTagDatasetStatus('Failed to read the selected files.', 'error');
+        } finally {
+            tagDatasetInput.value = '';
+        }
+    });
+}
 
 function sanitizeBaseUrl(url) {
     return url.replace(/\/$/, '');
