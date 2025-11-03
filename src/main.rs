@@ -2,11 +2,14 @@ use axum::{
     extract::State,
     http::StatusCode,
     response::{IntoResponse, Response},
-    routing::get,
+    routing::{get, get_service},
     Router,
 };
 use std::{net::SocketAddr, path::PathBuf, sync::Arc};
-use tower_http::{services::ServeDir, trace::TraceLayer};
+use tower_http::{
+    services::{ServeDir, ServeFile},
+    trace::TraceLayer,
+};
 use tracing::{error, info};
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
@@ -30,19 +33,27 @@ async fn main() {
         static_dir: static_dir.clone(),
     };
 
-    let serve_dir = ServeDir::new(static_dir.as_ref()).append_index_html_on_directories(true);
+    let static_files = get_service(
+        ServeDir::new(static_dir.as_ref())
+            .append_index_html_on_directories(true)
+            .fallback(ServeFile::new(static_dir.join("index.html"))),
+    )
+    .handle_error(|err| async move {
+        error!("static serve error: {err}");
+        (StatusCode::INTERNAL_SERVER_ERROR, "static error")
+    });
 
     let app = Router::new()
         .route("/", get(index))
-        .nest_service("/", serve_dir)
+        .fallback_service(static_files)
         .with_state(app_state)
         .layer(TraceLayer::new_for_http());
 
-    let addr = SocketAddr::from(([0, 0, 0, 0], 8080));
-    info!("Listening on http://{}", addr);
+    let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
+    info!("Listening on http://{addr}");
 
     if let Err(err) = axum::serve(tokio::net::TcpListener::bind(addr).await.unwrap(), app).await {
-        error!("server error: {}", err);
+        error!("server error: {err}");
     }
 }
 
@@ -55,7 +66,7 @@ async fn index(State(state): State<AppState>) -> impl IntoResponse {
             .body(contents.into())
             .unwrap(),
         Err(err) => {
-            error!("failed to read index.html: {}", err);
+            error!("failed to read index.html: {err}");
             StatusCode::INTERNAL_SERVER_ERROR.into_response()
         }
     }
