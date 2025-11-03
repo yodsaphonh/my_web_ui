@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stable Diffusion A1111 WebUI</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h1>Stable Diffusion A1111 WebUI</h1>
+        <p class="subtitle">Generate images with txt2img using your local or remote Automatic1111 API.</p>
+    </header>
+
+    <main>
+        <section class="configuration">
+            <form id="txt2img-form">
+                <div class="form-row two-column">
+                    <label>
+                        Base API URL
+                        <input type="url" id="base-url" name="base-url" placeholder="http://127.0.0.1:7860" value="http://127.0.0.1:7860" required>
+                    </label>
+                    <label>
+                        Model
+                        <div class="model-selector">
+                            <select id="model" name="model">
+                                <option value="">Default</option>
+                            </select>
+                            <button type="button" id="refresh-models" title="Refresh models">↻</button>
+                        </div>
+                        <span class="help">Loads models from /sdapi/v1/sd-models</span>
+                    </label>
+                </div>
+
+                <div class="form-row two-column">
+                    <label>
+                        Prompt
+                        <textarea id="prompt" name="prompt" rows="4" placeholder="A futuristic cityscape at sunset"></textarea>
+                    </label>
+                    <label>
+                        Negative Prompt
+                        <textarea id="negative-prompt" name="negative-prompt" rows="4" placeholder="Low quality, blurry"></textarea>
+                    </label>
+                </div>
+
+                <div class="form-row three-column">
+                    <label>
+                        Width
+                        <input type="number" id="width" name="width" value="512" min="64" step="64">
+                    </label>
+                    <label>
+                        Height
+                        <input type="number" id="height" name="height" value="512" min="64" step="64">
+                    </label>
+                    <label>
+                        Steps
+                        <input type="number" id="steps" name="steps" value="20" min="1" max="150">
+                    </label>
+                </div>
+
+                <div class="form-row three-column">
+                    <label>
+                        Sampler
+                        <input type="text" id="sampler" name="sampler" placeholder="Euler a">
+                    </label>
+                    <label>
+                        CFG Scale
+                        <input type="number" id="cfg-scale" name="cfg-scale" value="7" min="1" max="20" step="0.5">
+                    </label>
+                    <label>
+                        Batch Size
+                        <input type="number" id="batch-size" name="batch-size" value="1" min="1" max="8">
+                    </label>
+                </div>
+
+                <div class="form-row">
+                    <button type="submit" id="generate">Generate</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="status" id="status-panel" hidden>
+            <div class="progress-container">
+                <label>Generation Progress</label>
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <div class="progress-info">
+                    <span id="progress-text">Waiting...</span>
+                    <span id="eta-text"></span>
+                </div>
+            </div>
+            <div class="noise-preview">
+                <canvas id="noise-canvas" width="256" height="256"></canvas>
+                <img id="progress-image" alt="Current generation preview" hidden>
+            </div>
+        </section>
+
+        <section class="results">
+            <h2>Generated Images</h2>
+            <div id="images" class="image-grid">
+                <p class="placeholder">No images yet. Generate something amazing!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <small>Powered by Stable Diffusion Automatic1111 API</small>
+    </footer>
+
+    <script src="/app.js" type="module"></script>
+</body>
+</html>
