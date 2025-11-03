@@ -5,7 +5,7 @@ This project provides a minimal Rust web server and static web interface for int
 ## Features
 - Axum-based server that serves the compiled static assets on `http://localhost:8080`.
 - Dark themed single-page interface with inputs for the base API URL, model selection, prompt settings, and seed control.
-- Prompt textareas include tag autocomplete backed by a curated subset of the [a1111-sd-webui-tagcomplete](https://github.com/DominikDoom/a1111-sd-webui-tagcomplete) dataset.
+- Prompt textareas include tag autocomplete backed by a curated subset of the [a1111-sd-webui-tagcomplete](https://github.com/DominikDoom/a1111-sd-webui-tagcomplete) dataset, with runtime support for merging additional CSV/JSON tag lists.
 - Progress polling and animated noise preview while images are generated.
 - Gallery view that displays the resulting txt2img outputs, along with metadata extracted from the API response.
 
@@ -34,14 +34,33 @@ The server listens on port `8080` by default.
 
 All API routes exposed by Automatic1111 are listed in `All_API_Route.json`, which can serve as a reference for expanding the UI with additional capabilities.
 
-### Using the full TagComplete dataset
+### Customizing tag autocomplete datasets
 
 The bundled `static/tagcomplete-data.json` contains a lightweight selection of popular prompts so autocomplete works out of the box.
-To upgrade to the complete dataset from [DominikDoom/a1111-sd-webui-tagcomplete](https://github.com/DominikDoom/a1111-sd-webui-tagcomplete):
 
-1. Clone or download the upstream repository.
-2. Use the export utilities in that project (for example `scripts/export.py --format json`) to produce a JSON file with fields `tag`, `aliases`, `category`, and `description`.
-3. Replace `static/tagcomplete-data.json` in this project with the exported file and refresh the browser. The autocomplete loader fetches the data dynamically, so no further code changes are needed.
+#### Merge CSV/JSON files from the browser
+
+1. Click **Load CSV/JSON** in the Tag Autocomplete Dataset card.
+2. Select one or more TagComplete `.csv` files (for example `danbooru.csv`, `danbooru_e621_merged.csv`, etc.) or a compatible `.json` export.
+3. The browser parses every file locally, merges the results with the current dataset, and updates the tag count indicator.
+
+You can repeat the process at any time—the loader deduplicates tags and aliases so it is safe to add overlapping files.
+
+#### Preloading datasets from disk
+
+The manifest `static/tagcomplete-sources.json` controls which files are fetched on page load. By default it references the bundled starter JSON:
+
+```json
+{
+  "datasets": [
+    { "url": "/tagcomplete-data.json", "format": "json", "label": "Starter dataset" }
+  ]
+}
+```
+
+Add additional entries (CSV or JSON) to the `datasets` array to make them available automatically. Each entry accepts `url`, `format` (`csv` or `json`), and an optional `label` used in log messages.
+
+To obtain fresh data from [DominikDoom/a1111-sd-webui-tagcomplete](https://github.com/DominikDoom/a1111-sd-webui-tagcomplete) you can either reuse the provided `.csv` files or run the upstream export scripts to generate your own JSON. Drop the files into `static/` (or host them elsewhere) and update the manifest or use the in-browser loader as described above.
 
 ## Development tips
 - Modify the static assets inside the `static/` directory. They are served directly without additional build steps.
